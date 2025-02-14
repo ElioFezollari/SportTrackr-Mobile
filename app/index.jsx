@@ -1,8 +1,9 @@
 import { useFonts } from 'expo-font'; 
 import { View, Text, StyleSheet, Image } from "react-native";
 import "react-native-reanimated";
-import logo from "../assets/images/index/logo.png";
+import logo from "../assets/images/logo.png";
 import { Link } from 'expo-router';
+import BottomBar from '../components/BottomBar';
 
 export default function Index() {
   const [fontsLoaded] = useFonts({
@@ -25,6 +26,7 @@ export default function Index() {
         <Link style={styles.link} href="/login">Log In</Link>
         <Link style={{...styles.link,marginTop:20}} href="/register">Sign Up</Link>
       </View>
+      <BottomBar/>
     </View>
   );
 }
