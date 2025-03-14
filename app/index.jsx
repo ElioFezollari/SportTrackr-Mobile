@@ -1,26 +1,21 @@
 import { useFonts } from 'expo-font'; 
-import { View, Text, StyleSheet, Image, Dimensions, TouchableOpacity, Linking } from "react-native";
+import { View, Text, StyleSheet, Image, Dimensions, TouchableOpacity } from "react-native";
 import { LinearGradient } from 'expo-linear-gradient';  
 import "react-native-reanimated";
 import logo from "../assets/images/logo.png";
 import bg from "../assets/images/main/soccer.webp";
-import { Link } from 'expo-router';
-import BottomBar from '../components/BottomBar';
+import { useRouter } from 'expo-router';
 import Svg, { Path } from 'react-native-svg';
 
 export default function Index() {
   const [fontsLoaded] = useFonts({
     'Jersey20': require('../assets/fonts/Jersey20.ttf'),
   });
+  const router = useRouter();
 
   if (!fontsLoaded) {
     return <View style={styles.container}><Text>Loading...</Text></View>;
   }
-
-  const handleOpenWithLinking = () =>{
-    console.log("hi")
-    Linking.openURL("/register");
-}
 
   return (
     <View style={styles.container}>
@@ -42,6 +37,7 @@ export default function Index() {
           <TouchableOpacity 
             style={styles.button} 
             activeOpacity={0.7} 
+            onPress={()=>{router.push('/login')}}
           >
             <LinearGradient
               colors={['#495464', '#8796B0']}
@@ -49,15 +45,16 @@ export default function Index() {
               end={{ x: 1, y: 0 }} 
               style={styles.gradientButton}
             >
-              <Text style={styles.buttonText}>Sign Up</Text>
+              <Text style={styles.buttonText}>Log In</Text>
             </LinearGradient>
           </TouchableOpacity>
 
-          <TouchableOpacity 
-            style={[styles.button, styles.loginButton]} 
-          >
-            <Text style={{...styles.buttonText,color:'#495464'}}>Log In</Text>
-          </TouchableOpacity>
+            <TouchableOpacity 
+            onPress={()=>{router.push('/signup')}}
+              style={[styles.button, styles.loginButton]} 
+            >
+              <Text style={{...styles.buttonText,color:'#495464'}}>Sign Up</Text>
+            </TouchableOpacity>
         </View>
       </View>
     </View>

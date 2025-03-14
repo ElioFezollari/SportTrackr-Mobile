@@ -5,7 +5,7 @@ import Svg, { Path } from 'react-native-svg'
 import Animated, { useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated';
 
 
-const LogIn = () => {
+const SignUp = () => {
   const [email, setEmail] = useState('');  
 
   
@@ -32,7 +32,7 @@ const LogIn = () => {
     <View style={styles.container}>
             <View style={styles.bgContainer}>
         <LottieView
-          source={require('../../assets/lottie/lock.json')} 
+          source={require('../../assets/lottie/email.json')} 
           autoPlay
           loop
           style={styles.bg}
@@ -40,6 +40,29 @@ const LogIn = () => {
       </View>
 
       <Animated.View style={[styles.emailDiv,animatedStyle]}>
+      <View >
+      <Text style={styles.enterEmail}>
+        Enter your email to continue with the sign up process:
+      </Text>
+      </View>
+      <View style={styles.buttonContainer}>
+        <TextInput
+          style={styles.input}
+          onChangeText={(text) => setEmail(text)}
+          value={email}
+          placeholder="Enter your email"
+          keyboardType="email-address" 
+          placeholderTextColor="#BBBFCA"
+        />
+
+        <TouchableOpacity 
+          style={styles.button} 
+          activeOpacity={0.7} 
+          onPress={() => { console.log('Email Sent:', email); }} 
+        >
+          <Text style={styles.buttonText}>Send Email</Text>
+        </TouchableOpacity>
+      </View>
     </Animated.View>
     </View>
   );
@@ -54,7 +77,7 @@ const styles = StyleSheet.create({
   bgContainer: {
     position: 'relative',
     width: '100%',
-    height:400, 
+    height:600, 
 
   },
   bg: {
@@ -134,4 +157,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default LogIn;
+export default SignUp;
