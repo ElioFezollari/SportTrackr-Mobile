@@ -40,6 +40,36 @@ const LogIn = () => {
       </View>
 
       <Animated.View style={[styles.emailDiv,animatedStyle]}>
+              <Text style={styles.logIn}>
+                Log In
+              </Text>
+        <View style={styles.buttonContainer}>
+                <TextInput
+                  style={styles.input}
+                  onChangeText={(text) => setEmail(text)}
+                  value={email}
+                  placeholder="Enter your email"
+                  keyboardType="email-address" 
+                  placeholderTextColor="#BBBFCA"
+                />
+                                <TextInput
+                  style={styles.input}
+                  onChangeText={(text) => setEmail(text)}
+                  value={email}
+                  placeholder="Enter your password"
+                  secureTextEntry={true}
+                  keyboardType="email-address" 
+                  placeholderTextColor="#BBBFCA"
+                />
+        
+                <TouchableOpacity 
+                  style={styles.button} 
+                  activeOpacity={0.7} 
+                  onPress={() => { console.log('Email Sent:', email); }} 
+                >
+                  <Text style={styles.buttonText}>Send Email</Text>
+                </TouchableOpacity>
+              </View>
     </Animated.View>
     </View>
   );
@@ -54,7 +84,7 @@ const styles = StyleSheet.create({
   bgContainer: {
     position: 'relative',
     width: '100%',
-    height:400, 
+    height:450, 
 
   },
   bg: {
@@ -83,10 +113,10 @@ const styles = StyleSheet.create({
     
     elevation: 8,
   },
-  enterEmail:{
+  logIn:{
     color:'#495464',
     textAlign:'center',
-    fontSize:20,
+    fontSize:50,
     paddingHorizontal:57,
     fontFamily: 'Jersey20'
   },
@@ -105,7 +135,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     marginBottom: 20,
     fontSize: 16,
-    color: 'white',
+    color: '#495464',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.2, 

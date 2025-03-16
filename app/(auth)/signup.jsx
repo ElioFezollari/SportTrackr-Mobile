@@ -1,13 +1,49 @@
 import { View, Text, TouchableOpacity, StyleSheet, Dimensions, Image, TextInput } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import LottieView from 'lottie-react-native';
-import Svg, { Path } from 'react-native-svg'
 import Animated, { useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated';
-
+import email from "../../assets/images/email.png"
+import { KeyboardAvoidingView } from 'react-native-web';
+import { sendVerificationEmail } from '../../services/auth';
 
 const SignUp = () => {
   const [email, setEmail] = useState('');  
+  const [showModal, setShowModal] = useState(false);
+  const [isError, setIsError] = useState(false);
+  const [error, setError] = useState('');
+  const [message,setMessage] = useState('')
+  const handleSubmit = async () => {
+    setError('');
+    setMessage('');
+    setIsError(false);
 
+    try {
+      console.log("hi")
+      const response = await sendVerificationEmail( {email} );
+      
+      if (response.status === 200) {
+        setMessage('Verification email sent successfully!');
+        console.log("Sent")
+        setShowModal(true);
+      } else {
+        console.log("error")
+        setError('Failed to send verification email. Please try again.');
+        setIsError(true);
+        setShowModal(true);
+      }
+    } catch (error) {
+      console.error("Error in sendVerificationEmail:", error);
+      
+      if (error.response) {
+        console.error("Response error:", error.response);
+      } else if (error.request) {
+        console.error("Request error:", error.request);
+      } else {
+        console.error("General error:", error.message);
+      }
+    
+    }
+  };
   
   const translateY = useSharedValue(Dimensions.get('window').height); 
 
@@ -39,6 +75,7 @@ const SignUp = () => {
         />
       </View>
 
+
       <Animated.View style={[styles.emailDiv,animatedStyle]}>
       <View >
       <Text style={styles.enterEmail}>
@@ -46,6 +83,8 @@ const SignUp = () => {
       </Text>
       </View>
       <View style={styles.buttonContainer}>
+        <View>
+          <Image source={email}/>
         <TextInput
           style={styles.input}
           onChangeText={(text) => setEmail(text)}
@@ -54,16 +93,18 @@ const SignUp = () => {
           keyboardType="email-address" 
           placeholderTextColor="#BBBFCA"
         />
+        </View>
 
         <TouchableOpacity 
           style={styles.button} 
           activeOpacity={0.7} 
-          onPress={() => { console.log('Email Sent:', email); }} 
+          onPress={handleSubmit}
         >
           <Text style={styles.buttonText}>Send Email</Text>
         </TouchableOpacity>
       </View>
     </Animated.View>
+    
     </View>
   );
 }
@@ -121,6 +162,7 @@ const styles = StyleSheet.create({
   input: {
     fontFamily: 'Jersey20',
     width: '100%',
+    minWidth:300,
     padding:20,
     borderWidth: 2,
     borderColor: '#E8E8E8',
@@ -128,7 +170,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     marginBottom: 20,
     fontSize: 16,
-    color: 'white',
+    color: '#495464',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.2, 
