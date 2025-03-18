@@ -1,35 +1,21 @@
-import { View, Text, TouchableOpacity, StyleSheet, Dimensions, Image, TextInput } from 'react-native'
+import { View, Text, TouchableOpacity, StyleSheet, Dimensions, Image, TextInput, Alert } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import LottieView from 'lottie-react-native';
 import Animated, { useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated';
 import email from "../../assets/images/email.png"
-import { KeyboardAvoidingView } from 'react-native-web';
 import { sendVerificationEmail } from '../../services/auth';
 
 const SignUp = () => {
   const [email, setEmail] = useState('');  
-  const [showModal, setShowModal] = useState(false);
-  const [isError, setIsError] = useState(false);
-  const [error, setError] = useState('');
-  const [message,setMessage] = useState('')
   const handleSubmit = async () => {
-    setError('');
-    setMessage('');
-    setIsError(false);
 
     try {
-      console.log("hi")
       const response = await sendVerificationEmail( {email} );
       
       if (response.status === 200) {
-        setMessage('Verification email sent successfully!');
-        console.log("Sent")
-        setShowModal(true);
+        Alert.alert('Email sent', 'Verification email sent successfully! Please check your email.', [{ text: 'Ok!' }]);
       } else {
-        console.log("error")
-        setError('Failed to send verification email. Please try again.');
-        setIsError(true);
-        setShowModal(true);
+        Alert.alert('Failed to send verification email', 'Please try again.', [{ text: 'Cancel' }]);
       }
     } catch (error) {
       console.error("Error in sendVerificationEmail:", error);

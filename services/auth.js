@@ -28,11 +28,11 @@ const refreshToken = async () => {
   const response = await axios.get(baseUrl + "refresh",{
     withCredentials:true,
   });
+  console.log(response)
   return response.data
 }
 
 const sendVerificationEmail = async(email) => {
-    console.log(email)
   const response = await axios.post(baseUrl + 'verify', email);
   return response;
 }
