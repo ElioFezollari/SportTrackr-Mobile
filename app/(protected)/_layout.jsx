@@ -2,13 +2,13 @@ import React from 'react';
 import { Stack } from 'expo-router';
 import BottomBar from "../../components/BottomBar";
 import TopBar from '../../components/TopBar';
-import { SafeAreaView, View, StyleSheet } from 'react-native';
+import { SafeAreaView } from 'react-native';
 
 const ProtectedLayout = () => {
 
   return (
     <>
-        <TopBar />
+        <TopBar  />
       <SafeAreaView style={{ flex: 1 }}>
         <Stack screenOptions={{ headerShown: false }}>
           <Stack.Screen name="home" />

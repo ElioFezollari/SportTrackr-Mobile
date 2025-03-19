@@ -3,7 +3,15 @@ import { Text, View, StyleSheet, Image } from "react-native";
 import { getLeagueStats } from "../../services/leagues";
 import useAuth from "../../hooks/useAuth";
 import { ScrollView } from "react-native";
-
+import bayern from "../../assets/temp/bayern.jpg";
+import monaco from "../../assets/temp/monaco.jpg";
+import bologna from "../../assets/temp/bologna.jpg";
+import musiala from "../../assets/temp/musiala.jpg";
+import messi from "../../assets/temp/messi.jpg";
+import neymar from "../../assets/temp/neymar.jpg";
+import neuer from "../../assets/temp/neuer.jpg";
+import neuerrm from "../../assets/temp/neuerrm.jpg";
+import martinez from "../../assets/temp/martinez.webp";
 function Home() {
   const { auth } = useAuth();
   const [topGoalScorers, setTopGoalScorers] = useState([]);
@@ -21,16 +29,20 @@ function Home() {
   }, [auth.accessToken]);
 
   return (
-    <View style={styles.homeView}>
-      <View style={styles.topScorersView}>
-        <Text style={styles.topScorersHeader}>Top Scorers this week</Text>
-        <ScrollView
-          horizontal={true}
-          style={styles.topGoalScorersScroll}
-          showsHorizontalScrollIndicator={false}
-        >
-          {topGoalScorers &&
-            topGoalScorers.map((player, index) => {
+    <ScrollView style={styles.homeView}>
+      <View style={styles.scrollWrapperView}>
+        <Text style={styles.scrollWrapperHeader}>Top scorers this week</Text>
+        {topGoalScorers.length === 0 ? (
+          <Text style={styles.noDataText}>
+            No top scorers available at the moment
+          </Text>
+        ) : (
+          <ScrollView
+            horizontal={true}
+            style={styles.topGoalScorersScroll}
+            showsHorizontalScrollIndicator={false}
+          >
+            {topGoalScorers.map((player, index) => {
               return (
                 <View
                   key={player.userId}
@@ -51,22 +63,153 @@ function Home() {
                 </View>
               );
             })}
+          </ScrollView>
+        )}
+      </View>
+      <View style={styles.scrollWrapperView}>
+      <Text style={styles.scrollWrapperHeader}>Top skills this week</Text>
+        <ScrollView
+          horizontal={true}
+          style={{...styles.topGoalScorersScroll,paddingLeft:20}}
+          showsHorizontalScrollIndicator={false}
+        >
+          <View style={[styles.highlightView]}>
+            <Image source={musiala} style={styles.highlightImage} />
+            <Text
+              style={styles.highlightParagraph}j
+              numberOfLines={1}
+              ellipsizeMode="tail"
+            >
+              Musiala dismantles opposing team
+            </Text>
+          </View>
+          <View style={[styles.highlightView]}>
+            <Image source={messi} style={styles.highlightImage} />
+            <Text
+              style={styles.highlightParagraph}
+              numberOfLines={1}
+              ellipsizeMode="tail"
+            >
+              Messi does it once more 
+            </Text>
+          </View>
+          <View style={[styles.highlightView]}>
+            <Image source={neymar} style={styles.highlightImage} />
+            <Text
+              style={styles.highlightParagraph}
+              numberOfLines={1}
+              ellipsizeMode="tail"
+            >
+              Neymar rainbowflick against CEL
+            </Text>
+          </View>
         </ScrollView>
       </View>
-    </View>
+      <View style={styles.scrollWrapperView}>
+        <Text style={styles.scrollWrapperHeader}>Top goals this week</Text>
+        <ScrollView
+          horizontal={true}
+          style={{...styles.topGoalScorersScroll,paddingLeft:20}}
+          showsHorizontalScrollIndicator={false}
+        >
+          <View style={[styles.highlightView]}>
+            <Image source={bayern} style={styles.highlightImage} />
+            <Text
+              style={styles.highlightParagraph}
+              numberOfLines={1}
+              ellipsizeMode="tail"
+            >
+              Bayern 9th goal against Dynamo Zagreb
+            </Text>
+          </View>
+          <View style={[styles.highlightView]}>
+            <Image source={monaco} style={styles.highlightImage} />
+            <Text
+              style={styles.highlightParagraph}
+              numberOfLines={1}
+              ellipsizeMode="tail"
+            >
+              Monaco surprises barcelona with this goal
+            </Text>
+          </View>
+          <View style={[styles.highlightView]}>
+          <Image source={bologna} style={styles.highlightImage} />
+            <Text
+              style={styles.highlightParagraph}
+              numberOfLines={1}
+              ellipsizeMode="tail"
+            >
+              Bologna messes up against Liverpool
+            </Text>
+          </View>
+        </ScrollView>
+      </View>
+      <View style={{...styles.scrollWrapperView,marginBottom:100}}>
+        <Text style={styles.scrollWrapperHeader}>Top saves this week</Text>
+        <ScrollView
+          horizontal={true}
+          style={{...styles.topGoalScorersScroll,paddingLeft:20}}
+          showsHorizontalScrollIndicator={false}
+        >
+          <View style={[styles.highlightView]}>
+            <Image source={neuer} style={styles.highlightImage} />
+            <Text
+              style={styles.highlightParagraph}
+              numberOfLines={1}
+              ellipsizeMode="tail"
+            >
+              Neuer saves bayern again
+            </Text>
+          </View>
+          <View style={[styles.highlightView]}>
+            <Image source={neuerrm} style={styles.highlightImage} />
+            <Text
+              style={styles.highlightParagraph}
+              numberOfLines={1}
+              ellipsizeMode="tail"
+            >
+              Neuer stops ronaldo from scoring
+            </Text>
+          </View>
+          <View style={[styles.highlightView]}>
+            <Image source={martinez} style={styles.highlightImage} />
+            <Text
+              style={styles.highlightParagraph}
+              numberOfLines={1}
+              ellipsizeMode="tail"
+            >
+              Martinez stops french attack
+            </Text>
+          </View>
+        </ScrollView>
+      </View>
+      
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  topScorersView: {
+  homeView: {
+    padding: 10,
+    paddingTop:0,
+  },
+  scrollWrapperView: {
     marginTop: 20,
     width: "100%",
   },
-  topScorersHeader: {
+  scrollWrapperHeader: {
     fontFamily: "Jersey20",
     color: "#495464",
     padding: 20,
     fontSize: 30,
+  },
+  noDataText: {
+    fontFamily: "Jersey20",
+    color: "#7e8b9e",
+    fontSize: 20,
+    textAlign: "left",
+    paddingLeft:20,
+    marginTop: 20,
   },
   topScorersParagraph: {
     fontFamily: "Jersey20",
@@ -80,7 +223,33 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     padding: 5,
-    paddingLeft: 20,
+    paddingLeft: 10,
+  },
+  highlightView: {
+    flexDirection: "column", 
+    alignItems: "center", 
+    justifyContent: "flex-start",
+    paddingLeft: 10,
+    height: 140,
+    marginRight: 10,
+    width: 150,
+  },
+
+  highlightImage: {
+    width: 150,
+    height: 100,
+    marginBottom: 10,
+  },
+
+  highlightParagraph: {
+    fontFamily: "Jersey20",
+    color: "#495464",
+    
+    fontSize: 16,
+    textAlign: "center",
+    width: 140, 
+    flexShrink: 1, 
+    flexWrap: "wrap", 
   },
   profileImage: {
     width: 100,
