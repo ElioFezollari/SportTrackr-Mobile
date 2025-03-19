@@ -51,6 +51,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     position: "absolute",
     bottom: 0,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.4,
+    shadowRadius: 10,
+    zIndex:'2'
   },
   navItems: {
     flexDirection: "row",
