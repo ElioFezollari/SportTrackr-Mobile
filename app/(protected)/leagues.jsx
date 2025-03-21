@@ -3,9 +3,8 @@ import { Text, View, StyleSheet, TextInput, FlatList, Image, Dimensions, Touchab
 import useAuth from "../../hooks/useAuth";
 import { FontAwesome } from "@expo/vector-icons";
 import { getLeagues } from "../../services/leagues";
-import defaultLeagueLogo from "../../assets/defaultLogo/default_league_logo.svg"; 
 import { Link } from "expo-router";
-
+import dateParser from "../../utilities/dateParser";
 const { width, height } = Dimensions.get("window");
 
 function Leagues() {
@@ -28,25 +27,33 @@ function Leagues() {
     }, [auth.accessToken]);
 
     const loadLeagues = ({ item }) => {
-        const startTime = item.startTime;
-        
-        const startDate = startTime ? new Date(Date.parse(startTime)) : null;
-    
-        let started = startDate && startDate <= currentDate;
-    
+        const started = dateParser(item.startTime, currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
         return (
             <TouchableOpacity style={styles.leagueInfo}>
                 <View style={styles.leagueInfoLeft}>
-                    <Image 
-                        source={item.logoUrl ? { uri: item.logoUrl } : defaultLeagueLogo} 
-                        style={styles.leagueLogo} 
-                    />
+                    {item.logoUrl ? (
+                        <Image 
+                            source={{ uri: item.logoUrl }} 
+                            style={styles.leagueLogo} 
+                        />
+                    ) : (
+                        <Image 
+                            source={require('../../assets/defaultLogo/default_league_logo.png')} 
+                            style={styles.leagueLogo} 
+                        />
+                    )}
                     <Text style={styles.leagueName}>{item.leagueName}</Text>
                 </View>
-    
+                {started ? 
+                
+                (<Text style={styles.redirectButtonText} color="red">
+                    League has begun
+                </Text>) :
+                (
                 <Text style={styles.redirectButtonText}>
-                    {started ? "League has begun" : "Registration has begun"}
-                </Text>
+                    Registration has begun
+                </Text>)
+                }
             </TouchableOpacity>
         );
     };
@@ -171,6 +178,7 @@ const styles = StyleSheet.create({
         textAlign: "center",
         padding: height * 0.008,
         borderRadius: 5,
+        fontWeight: "bold"
     },
 });
 
