@@ -1,5 +1,5 @@
 import axios from 'axios'
-const baseUrl = 'http://10.0.0.62:5000/v1/auth/'
+const baseUrl = 'http://192.168.2.57:5000/v1/auth/'
 
 
 const register = async(credentials,token)=>{
@@ -33,7 +33,14 @@ const refreshToken = async () => {
 }
 
 const sendVerificationEmail = async(email) => {
-  const response = await axios.post(baseUrl + 'verify', email);
+  
+  const response = await axios.post(baseUrl + 'verify', email, {
+    withCredentials: true,
+    headers: { 
+      'Content-Type': 'application/json',
+      'clientType': 'mob'
+    } 
+  });
   return response;
 }
 

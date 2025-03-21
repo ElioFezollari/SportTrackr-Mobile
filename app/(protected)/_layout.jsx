@@ -8,7 +8,7 @@ const ProtectedLayout = () => {
 
   return (
     <>
-        <TopBar  />
+      <TopBar/>
       <SafeAreaView style={{ flex: 1 }}>
         <Stack screenOptions={{ headerShown: false }}>
           <Stack.Screen name="home" />
