@@ -1,5 +1,5 @@
 import axios from 'axios'
-const baseUrl = 'http://10.0.0.62:5000/v1/auth/'
+const baseUrl = 'http://192.168.2.11:5001/v1/auth/'
 
 
 const register = async(credentials,token)=>{
@@ -13,6 +13,7 @@ const login = async (credentials) =>{
   const response = await axios.post(baseUrl + "login",credentials,{
     withCredentials:true
   })
+  console.log(response)
   return response
 }
 
