@@ -27,7 +27,6 @@ const refreshToken = async () => {
   const response = await axios.get(baseUrl + "refresh",{
     withCredentials:true,
   });
-  console.log(response)
   return response.data
 }
 

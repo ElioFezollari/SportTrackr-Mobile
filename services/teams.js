@@ -32,5 +32,19 @@ const joinTeam = async (teamId, data, credentials) => {
     }
 };
 
+const getTeamPlayers = async (credentials,teamId) => {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${credentials}`, 
+      },
+    };
+    
+    try {
+      const response = await axios.get(`${baseUrl}/players/${teamId}`, config);
+      return response;
+    } catch (error) {
+      console.error('Error fetching leagues:', error);
+    }
+  };
 
-export { getTeamPlayersByLeague, joinTeam }
+export { getTeamPlayersByLeague, joinTeam, getTeamPlayers }
