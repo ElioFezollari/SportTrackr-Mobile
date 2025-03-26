@@ -1,4 +1,5 @@
 import axios from 'axios'
+
 const baseUrl = 'http://192.168.2.11:5001/v1/league/'
 
 
@@ -69,7 +70,17 @@ const getLeagueStats = async(credentials)=>{
     
       const response = await axios.get(baseUrl + 'stats',config);
       return response;
-    
 }
 
-export {getLeagues,getLeague,getLeagueList, createLeague,getLeagueStats}
+const getLeaguePointsTable = async(leagueId, credentials) => {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${credentials}`,
+      },
+    };
+
+    const response = await axios.get(baseUrl + 'league-points-table/' + leagueId, config);
+    return response;
+}
+
+export {getLeagues,getLeague,getLeagueList, createLeague,getLeagueStats, getLeaguePointsTable}
