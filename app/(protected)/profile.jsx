@@ -11,10 +11,13 @@ import interception from "../../assets/images/profile/interception.png";
 import appearances from "../../assets/images/profile/appearances.png";
 import yellow from "../../assets/images/profile/yellow.png";
 import red from "../../assets/images/profile/red.png";
+import { usePopUp } from "../../context/PopUpContext";
+
 
 const Profile = ({ passedId }) => {
   const [userProfile, setUserProfile] = useState();
   const { auth } = useAuth();
+  const { setPopUp } = usePopUp(); 
   const route = useRoute();
   const { id } = route.params;
 
@@ -35,8 +38,11 @@ const Profile = ({ passedId }) => {
   }, [id, auth.accessToken, auth.decodedInfo.id]);
 
   return (
+    
     userProfile && (
+      <>
       <View style={styles.profileView}>
+
         <View style={styles.playerView}>
           <View style={styles.playerText}>
             <View style={styles.playerNameView}>
@@ -65,7 +71,7 @@ const Profile = ({ passedId }) => {
           />
         </View>
         <View style={styles.currentSquadView}>
-          <TouchableOpacity style={styles.currentSquadButton}>
+          <TouchableOpacity style={styles.currentSquadButton} onPress={(()=>{setPopUp({type:"team",teamName:userProfile.teamName,teamImg:userProfile.teamLogo,teamId:userProfile.teamId})})}>
             <Text style={styles.currentSquadText}>Current {userProfile.teamName} Squad</Text>
           </TouchableOpacity>
         </View>
@@ -113,6 +119,7 @@ const Profile = ({ passedId }) => {
           </View>
         </View>
       </View>
+      </>
     )
   );
 };
