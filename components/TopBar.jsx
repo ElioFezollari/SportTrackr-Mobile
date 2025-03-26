@@ -3,6 +3,7 @@ import React from "react";
 import useAuth from "../hooks/useAuth";
 import profile from "../assets/images/topbar/profile.png";
 import settings from "../assets/images/topbar/settings.png";
+import { router } from "expo-router";
 export default function TopBar() {
   const { auth } = useAuth();
 
@@ -14,7 +15,7 @@ export default function TopBar() {
       <View style={styles.innerView}>
         {firstName && lastName && (
           <View style={styles.profileView}>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={()=>router.push("/profile")}>
               <Image style={styles.profileImage} source={profile}></Image>
             </TouchableOpacity>
             <Text style={styles.topViewText}>
