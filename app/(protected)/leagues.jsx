@@ -223,8 +223,11 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     modalContainer: {
+        flex: 1,
         width: "100%",
-        marginTop: height * 0.05,
+        height: "95%",
+        backgroundColor: "#fff",
+        marginTop: height * 0.1,
         height: height * 0.95,
         backgroundColor: "#fff",
         borderRadius: 10,
