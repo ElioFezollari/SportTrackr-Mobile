@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Text, View, StyleSheet, Image } from "react-native";
+import { Text, View, StyleSheet, Image, TouchableOpacity } from "react-native";
 import { getLeagueStats } from "../../services/leagues";
 import useAuth from "../../hooks/useAuth";
 import { ScrollView } from "react-native";
@@ -12,6 +12,7 @@ import neymar from "../../assets/temp/neymar.jpg";
 import neuer from "../../assets/temp/neuer.jpg";
 import neuerrm from "../../assets/temp/neuerrm.jpg";
 import martinez from "../../assets/temp/martinez.webp";
+import { router } from "expo-router";
 function Home() {
   const { auth } = useAuth();
   const [topGoalScorers, setTopGoalScorers] = useState([]);
@@ -44,8 +45,9 @@ function Home() {
           >
             {topGoalScorers.map((player, index) => {
               return (
+                <TouchableOpacity key={player.userId} onPress={()=>    router.push({pathname: '/profile',params: { id: player.userId,  }})}>
                 <View
-                  key={player.userId}
+                  
                   style={[
                     styles.playerView,
                     index === topGoalScorers.length - 1
@@ -60,7 +62,9 @@ function Home() {
                   <Text style={styles.topScorersParagraph}>
                     {player.firstName}- {player.totalGoals}
                   </Text>
+                  
                 </View>
+                </TouchableOpacity>
               );
             })}
           </ScrollView>
