@@ -231,14 +231,15 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     paddingLeft: 10,
     height: 140,
-    marginRight: 10,
+    marginRight: 60,
     width: 150,
   },
 
   highlightImage: {
-    width: 150,
-    height: 100,
+    width: 190,
+    height: 130,
     marginBottom: 10,
+    borderRadius:10
   },
 
   highlightParagraph: {
