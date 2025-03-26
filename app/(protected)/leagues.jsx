@@ -39,7 +39,10 @@ function Leagues() {
                 style={styles.leagueInfo}
                 onPress={() => {
                     if (!started) {
-                        router.push({ pathname: '/joinTeam', params: { leagueId: item.id, leagueName: item.leagueName, leagueLogo: item.logoUrl } });
+                        router.push({
+                            pathname: '/joinTeam',
+                            params: { leagueId: item.id, leagueLogo: item.logoUrl }
+                        });
                     } else {
                         setSelectedLeague(item);
                         setModalVisible(true);
