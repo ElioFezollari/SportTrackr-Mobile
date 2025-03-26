@@ -22,6 +22,7 @@ function BottomBar() {
           <Image style={styles.icons} source={message} />
           </TouchableOpacity>
         </Link>
+        <Link href="/leagues" style={styles.navItem}>
         <Link href="/home" style={styles.navItem}>
           <Image style={styles.logo} source={logo} />
         </Link>
