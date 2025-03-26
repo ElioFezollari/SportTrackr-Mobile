@@ -37,7 +37,7 @@ const Login = () => {
         accessToken: response.data.token,
         roles: response.data.roles,
       });
-      router.navigate('../(protected)/home');
+      router.push('../(protected)/home');
     } catch (err) {
       if (err.response) {
         console.error("Response error:", err.response);

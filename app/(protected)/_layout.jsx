@@ -11,7 +11,6 @@ const ProtectedLayout = () => {
         <TopBar  />
       <SafeAreaView style={{ flex: 1 }}>
         <Stack screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="home" />
         </Stack>
       </SafeAreaView>
       <BottomBar />

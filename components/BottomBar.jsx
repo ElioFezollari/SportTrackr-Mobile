@@ -4,7 +4,7 @@ import { Link } from "expo-router";
 import house from "../assets/images/bottombar/house.webp";
 import message from "../assets/images/bottombar/message.webp";
 import bell from "../assets/images/bottombar/bell.webp";
-import profile from "../assets/images/bottombar/profile.webp";
+import profileImg from "../assets/images/bottombar/profile.webp";
 import logo from "../assets/images/logo.png";
 
 function BottomBar() {
@@ -22,7 +22,7 @@ function BottomBar() {
           <Image style={styles.icons} source={message} />
           </TouchableOpacity>
         </Link>
-        <Link href="/add" style={styles.navItem}>
+        <Link href="/home" style={styles.navItem}>
           <Image style={styles.logo} source={logo} />
         </Link>
         <Link href="/messages" style={styles.navItem}>
@@ -32,7 +32,7 @@ function BottomBar() {
         </Link>
         <Link href="/profile" style={styles.navItem}>
         <TouchableOpacity>
-          <Image style={styles.icons} source={profile} />
+          <Image style={styles.icons} source={profileImg} />
           </TouchableOpacity>
         </Link>
       </View>
