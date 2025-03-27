@@ -13,12 +13,10 @@ const ProtectedLayout = () => {
     <>
       {popUp.type === "team" && (
         <>
-          {/* Overlay that darkens the background and prevents interaction */}
           <View style={styles.overlay} />
           <TeamPopUp />
         </>
       )}
-
       <TopBar />
       <SafeAreaView style={{ flex: 1 }}>
         <Stack screenOptions={{ headerShown: false }} />
