@@ -22,7 +22,7 @@ function BottomBar() {
 
         <TouchableOpacity
           style={styles.navItem}
-          onPress={() => router.push("/search")} 
+          onPress={() => router.push("/chat")} 
         >
           <Image style={styles.icons} source={message} />
         </TouchableOpacity>
