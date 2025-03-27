@@ -129,7 +129,7 @@ const TeamPopUp = () => {
       </View>
 
       <View style={styles.teamPopUpName}>
-        <Image source={{ uri: popUp.teamImg }} style={styles.teamImg} />
+        <Image source={popUp.teamImg ? { uri: popUp.teamImg } : require('../assets/defaultLogo/default_team_logo.png')} style={styles.teamImg} />
         <Text style={styles.teamPopUpText}>{popUp.teamName}</Text>
         <TouchableOpacity style={styles.schedule}><Text style={styles.scheduleText}>Check Schedule</Text></TouchableOpacity>
       </View>
