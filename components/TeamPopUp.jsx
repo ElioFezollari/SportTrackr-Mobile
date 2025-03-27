@@ -11,7 +11,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import React, { useEffect, useState } from "react";
-import getTeamPlayers from "../services/teams";
+import {getTeamPlayers} from "../services/teams";
 import useAuth from "../hooks/useAuth";
 import { usePopUp } from "../context/PopUpContext";
 import { router } from "expo-router";

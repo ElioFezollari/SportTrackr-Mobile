@@ -34,7 +34,6 @@ function JoinTeam() {
     const handleJoinTeam = async (teamId) => {
         try {
             const response = await joinTeam(teamId, { password }, auth.accessToken);
-            console.log("Response:", response);
     
             if (response?.status === 200 || response?.data?.status === 200) {
                 setPasswordModal(null);

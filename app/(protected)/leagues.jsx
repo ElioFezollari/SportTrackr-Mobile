@@ -23,7 +23,7 @@ function Leagues() {
             try {
                 const res = await getLeagues(auth.accessToken);
                 if (res.status === 200) setLeagues(res.data.leagues);
-                else console.log(res.data.message);
+                else console.log();
             } catch (error) {
                 console.error("Error fetching leagues:", error);
             }

@@ -40,7 +40,7 @@ const getTeamPlayers = async (credentials,teamId) => {
     };
     
     try {
-      const response = await axios.get(`${baseUrl}/players/${teamId}`, config);
+      const response = await axios.get(baseUrl + `players/${teamId}`, config);
       return response;
     } catch (error) {
       console.error('Error fetching leagues:', error);
