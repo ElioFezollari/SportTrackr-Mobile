@@ -3,7 +3,7 @@ import { View, Text, Image, FlatList, StyleSheet, ActivityIndicator } from "reac
 import { getMatchesByUser } from "../../services/match";
 import useAuth from "../../hooks/useAuth";
 import { decodeJWT } from "../../utilities/decode";
-import default_team_logo from "../../assets/defaultLogo/deafult_team_logo.png";
+import default_team_logo from "../../assets/defaultLogo/default_team_logo.png";
 
 function Schedule() {
   const [userId, setUserId] = useState(""); 

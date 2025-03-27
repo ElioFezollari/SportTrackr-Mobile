@@ -1,5 +1,5 @@
 import axios from 'axios'
-const baseUrl = 'http://10.0.0.62:5000/v1/user/'
+const baseUrl = 'http://192.168.0.207:5001/v1/user/'
 
 const getUserProfile = async (credentials,id) =>{
     const config = {
