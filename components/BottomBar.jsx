@@ -1,41 +1,52 @@
 import React from "react";
 import { StyleSheet, View, TouchableOpacity, Image } from "react-native";
-import { Link } from "expo-router";
 import house from "../assets/images/bottombar/house.webp";
 import message from "../assets/images/bottombar/message.webp";
 import bell from "../assets/images/bottombar/bell.webp";
 import profileImg from "../assets/images/bottombar/profile.webp";
 import logo from "../assets/images/logo.png";
+import { router } from "expo-router";
 
 function BottomBar() {
+
+
   return (
     <View style={styles.bottomNav}>
       <View style={styles.navItems}>
-        <Link href="/home" style={styles.navItem}>
-          <TouchableOpacity>
-            <Image style={styles.icons} source={house} />
-          </TouchableOpacity>
-        </Link>
+        <TouchableOpacity
+          style={styles.navItem}
+          onPress={() => router.push("/home")}
+        >
+          <Image style={styles.icons} source={house} />
+        </TouchableOpacity>
 
-        <Link href="/search" style={styles.navItem}>
-        <TouchableOpacity>
+        <TouchableOpacity
+          style={styles.navItem}
+          onPress={() => router.push("/chat")} 
+        >
           <Image style={styles.icons} source={message} />
-          </TouchableOpacity>
-        </Link>
-        {/* <Link href="/leagues" style={styles.navItem}> */}
-        <Link href="/home" style={styles.navItem}>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={[styles.navItem, styles.logoNavItem]} 
+          onPress={() => router.push("/home")} 
+        >
           <Image style={styles.logo} source={logo} />
-        </Link>
-        <Link href="/messages" style={styles.navItem}>
-        <TouchableOpacity>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={styles.navItem}
+          onPress={() => router.push("/messages")}
+        >
           <Image style={styles.icons} source={bell} />
-          </TouchableOpacity>
-        </Link>
-        <Link href="/profile" style={styles.navItem}>
-        <TouchableOpacity>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={styles.navItem}
+          onPress={() => router.push("/profile")} 
+        >
           <Image style={styles.icons} source={profileImg} />
-          </TouchableOpacity>
-        </Link>
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -56,7 +67,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.4,
     shadowRadius: 10,
-    zIndex:'2'
+    zIndex: 2,
   },
   navItems: {
     flexDirection: "row",
@@ -68,21 +79,17 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+  logoNavItem: {
+    transform: [{ translateY: -20 }],
+    marginTop:'-5'
+  },
   logo: {
     width: 90,
     height: 90,
-    position: "absolute",
-    left: "50%",
-    transform: [{ translateY: -30 }],
   },
   icons: {
     width: 40,
     height: 40,
-  },
-  navText: {
-    color: "#333",
-    fontSize: 14,
-    fontWeight: "bold",
   },
 });
 
