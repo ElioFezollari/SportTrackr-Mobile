@@ -131,7 +131,14 @@ const TeamPopUp = () => {
       <View style={styles.teamPopUpName}>
         <Image source={{ uri: popUp.teamImg }} style={styles.teamImg} />
         <Text style={styles.teamPopUpText}>{popUp.teamName}</Text>
-        <TouchableOpacity style={styles.schedule}><Text style={styles.scheduleText}>Check Schedule</Text></TouchableOpacity>
+        <TouchableOpacity 
+          style={styles.schedule} 
+          onPress={() => router.push({ pathname: '/schedule', params: { teamId } })}
+        >
+          <Text style={styles.scheduleText}>Check Schedule</Text>
+        </TouchableOpacity>
+
+
       </View>
 
       <FlatList

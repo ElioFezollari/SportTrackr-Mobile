@@ -1,40 +1,34 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, Image, FlatList, StyleSheet, ActivityIndicator } from "react-native";
-import { getMatchesByUser } from "../../services/match";
+import { getMatchesByTeamId } from "../../services/match"; 
+import { useRoute } from '@react-navigation/native'; 
 import useAuth from "../../hooks/useAuth";
-import { decodeJWT } from "../../utilities/decode";
 import default_team_logo from "../../assets/defaultLogo/default_team_logo.png";
 
 function Schedule() {
-  const [userId, setUserId] = useState(""); 
   const [matches, setMatches] = useState([]);
   const [loading, setLoading] = useState(true);
   const { auth } = useAuth();
+  const route = useRoute();
+  const { teamId } = route.params;
 
   useEffect(() => {
-    if (auth.accessToken) {
-      const decodeToken = decodeJWT(auth.accessToken);
-      setUserId(decodeToken?.id || "");
-    }
-  }, [auth.accessToken]);
+    if (!teamId) return;
 
-  useEffect(() => {
-    if (!userId) return;
-
-    async function fetchMatches() {
+    const fetchMatches = async () => {
       setLoading(true);
       try {
-        const response = await getMatchesByUser(auth.accessToken, userId);
+        const response = await getMatchesByTeamId(auth.accessToken, teamId);
         setMatches(response?.data.matches || []);
       } catch (error) {
-        console.error("Error fetching matches:");
+        console.error("Error fetching matches:", error);
       } finally {
         setLoading(false);
       }
-    }
+    };
 
     fetchMatches();
-  }, [userId]);
+  }, [teamId]); 
 
   if (loading) {
     return (
@@ -61,13 +55,13 @@ function Schedule() {
             <View style={styles.scheduleMatchCard}>
               <View style={styles.homescheduleTeam}>
                 <Image source={item.logo1 ? { uri: item.logo1 } : default_team_logo} style={styles.scheduleTeamLogo} />
-                  <View style={styles.scheduleTeamNameColorContainer}>
-                    <Text style={styles.scheduleTeamName}>{item.team1}</Text>
-                    <View style={styles.colorContainer}>
-                      <Text style={styles.scheduleTeamWear}>Wears:</Text>
-                      <View style={[styles.colorCircle, { backgroundColor: item.homeColor }]} />
-                    </View>
+                <View style={styles.scheduleTeamNameColorContainer}>
+                  <Text style={styles.scheduleTeamName}>{item.team1}</Text>
+                  <View style={styles.colorContainer}>
+                    <Text style={styles.scheduleTeamWear}>Wears:</Text>
+                    <View style={[styles.colorCircle, { backgroundColor: item.homeColor }]} />
                   </View>
+                </View>
               </View>
 
               <Text style={styles.scheduleScore}>
@@ -80,7 +74,6 @@ function Schedule() {
                 </Text>
               </Text>
 
-
               {/* Team 2 */}
               <View style={styles.awayscheduleTeam}>
                 <Image source={item.logo2 ? { uri: item.logo2 } : default_team_logo} style={styles.scheduleTeamLogo} />
@@ -90,7 +83,6 @@ function Schedule() {
                     <Text style={styles.scheduleTeamWear}>Wears:</Text>
                     <View style={[styles.colorCircle, { backgroundColor: item.awayColor }]} />
                   </View>
-
                 </View>
               </View>
             </View>
@@ -112,7 +104,6 @@ const getScoreStyle = (homeScore, awayScore, team) => {
   }
   return { color: "#495464" }; // Default for ties
 };
-
 
 const styles = StyleSheet.create({
   loaderContainer: {
@@ -136,8 +127,7 @@ const styles = StyleSheet.create({
   matchInfoContainer: {
     alignItems: "center",
     marginBottom: 10,
-    marginTop: 20 ,
-
+    marginTop: 20,
   },
   scheduleMatchInfo: {
     fontFamily: "Jersey20",
@@ -163,26 +153,24 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flex: 1,
     flexDirection: "row",
-
   },
   awayscheduleTeam: {
     alignItems: "center",
     flex: 1,
     flexDirection: "row",
-    direction:"rtl"
-
+    direction: "rtl",
   },
   scheduleTeamLogo: {
     width: 40,
     height: 40,
     marginBottom: 20,
-    marginLeft:5,
+    marginLeft: 5,
     marginRight: 5,
     shadowColor: "black",
     shadowOffset: { width: 0, height: 7 },
     shadowOpacity: 0.3,
     shadowRadius: 2,
-      },
+  },
   scheduleTeamName: {
     fontFamily: "Jersey20",
     fontSize: 17,
@@ -197,12 +185,12 @@ const styles = StyleSheet.create({
   scheduleTeamNameColorContainer: {
     flexDirection: "column",
     alignItems: "center",
-    direction:"ltr"
-  },  
+    direction: "ltr",
+  },
   scheduleScore: {
     fontSize: 22,
     fontWeight: "bold",
-    margin: 15
+    margin: 15,
   },
   scoreText: {
     fontSize: 22,

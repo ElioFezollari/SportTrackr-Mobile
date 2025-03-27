@@ -1,32 +1,68 @@
 import React, { useEffect, useState } from "react";
 import { Text, View, StyleSheet, Image, TouchableOpacity } from "react-native";
 import { getLeagueStats } from "../../services/leagues";
+import { getGoalHighlights, getDribbleHighlights, getSaveHighlights } from "../../services/match";
+import { Video } from 'expo-av';
 import useAuth from "../../hooks/useAuth";
 import { ScrollView } from "react-native";
-import bayern from "../../assets/temp/bayern.jpg";
-import monaco from "../../assets/temp/monaco.jpg";
-import bologna from "../../assets/temp/bologna.jpg";
-import musiala from "../../assets/temp/musiala.jpg";
-import messi from "../../assets/temp/messi.jpg";
-import neymar from "../../assets/temp/neymar.jpg";
-import neuer from "../../assets/temp/neuer.jpg";
-import neuerrm from "../../assets/temp/neuerrm.jpg";
-import martinez from "../../assets/temp/martinez.webp";
 import { router } from "expo-router";
+
+const HighlightCard = ({ imageSource, text, onPress }) => (
+  <View style={styles.highlightView}>
+    <TouchableOpacity onPress={onPress}>
+      <Image source={imageSource} style={styles.highlightImage} />
+    </TouchableOpacity>
+    <Text style={styles.highlightParagraph} numberOfLines={1} ellipsizeMode="tail">
+      {text}
+    </Text>
+  </View>
+);
+
+const VideoHighlightCard = ({ videoUrl, text }) => (
+  <View style={styles.highlightView}>
+    <TouchableOpacity>
+      <View style={styles.videoContainer}>
+        <Video
+          source={{ uri: videoUrl }}
+          style={styles.videoPlayer}
+          useNativeControls
+          resizeMode="cover"
+          shouldPlay={false}
+        />
+      </View>
+    </TouchableOpacity>
+    <Text style={styles.highlightParagraph} numberOfLines={1} ellipsizeMode="tail">
+      {text}
+    </Text>
+  </View>
+);
+
 function Home() {
   const { auth } = useAuth();
   const [topGoalScorers, setTopGoalScorers] = useState([]);
+  const [goalHighlights, setGoalHighlights] = useState([]);
+  const [saveHighlights, setSaveHighlights] = useState([]);
+  const [dribbleHighlights, setDribbleHighlights] = useState([]);
 
   useEffect(() => {
-    const fetchLeagueStats = async () => {
+    const fetchStats = async () => {
       try {
-        const stats = await getLeagueStats(auth.accessToken);
-        setTopGoalScorers(stats.data.topGoalScorers);
+        const [leagueStats, goalStats, saveStats, dribbleStats] = await Promise.all([
+          getLeagueStats(auth.accessToken),
+          getGoalHighlights(auth.accessToken),
+          getSaveHighlights(auth.accessToken),
+          getDribbleHighlights(auth.accessToken),
+        ]);
+        setTopGoalScorers(leagueStats.data.topGoalScorers);
+        setGoalHighlights(goalStats.data);
+        setSaveHighlights(saveStats.data);
+        setDribbleHighlights(dribbleStats.data);
+        console.log(goalHighlights)
       } catch (error) {
-        console.error("Error fetching league stats:", error);
+        console.error("Error fetching stats:", error);
       }
     };
-    fetchLeagueStats();
+    fetchStats();
   }, [auth.accessToken]);
 
   return (
@@ -43,151 +79,64 @@ function Home() {
             style={styles.topGoalScorersScroll}
             showsHorizontalScrollIndicator={false}
           >
-            {topGoalScorers.map((player, index) => {
-              return (
-                <TouchableOpacity key={player.userId} onPress={()=>    router.push({pathname: '/profile',params: { id: player.userId,  }})}>
-                <View
-                  
-                  style={[
-                    styles.playerView,
-                    index === topGoalScorers.length - 1
-                      ? { paddingRight: 20 }
-                      : null,
-                  ]}
-                >
+            {topGoalScorers.map((player, index) => (
+              <TouchableOpacity
+                key={player.userId}
+                onPress={() => router.push({ pathname: '/profile', params: { id: player.userId } })}
+              >
+                <View style={[styles.playerView, index === topGoalScorers.length - 1 && { paddingRight: 20 }]}>
                   <Image
                     source={{ uri: player.pictureUrl, cache: "reload" }}
                     style={styles.profileImage}
                   />
                   <Text style={styles.topScorersParagraph}>
-                    {player.firstName}- {player.totalGoals}
+                    {player.firstName} - {player.totalGoals}
                   </Text>
-                  
                 </View>
-                </TouchableOpacity>
-              );
-            })}
+              </TouchableOpacity>
+            ))}
           </ScrollView>
         )}
       </View>
+
       <View style={styles.scrollWrapperView}>
-      <Text style={styles.scrollWrapperHeader}>Top skills this week</Text>
-        <ScrollView
-          horizontal={true}
-          style={{...styles.topGoalScorersScroll,paddingLeft:20}}
-          showsHorizontalScrollIndicator={false}
-        >
-          <View style={[styles.highlightView]}>
-            <Image source={musiala} style={styles.highlightImage} />
-            <Text
-              style={styles.highlightParagraph}j
-              numberOfLines={1}
-              ellipsizeMode="tail"
-            >
-              Musiala dismantles opposing team
-            </Text>
-          </View>
-          <View style={[styles.highlightView]}>
-            <Image source={messi} style={styles.highlightImage} />
-            <Text
-              style={styles.highlightParagraph}
-              numberOfLines={1}
-              ellipsizeMode="tail"
-            >
-              Messi does it once more 
-            </Text>
-          </View>
-          <View style={[styles.highlightView]}>
-            <Image source={neymar} style={styles.highlightImage} />
-            <Text
-              style={styles.highlightParagraph}
-              numberOfLines={1}
-              ellipsizeMode="tail"
-            >
-              Neymar rainbowflick against CEL
-            </Text>
-          </View>
+        <Text style={styles.scrollWrapperHeader}>Top skills this month</Text>
+        <ScrollView horizontal={true} style={{ ...styles.topGoalScorersScroll, paddingLeft: 20 }} showsHorizontalScrollIndicator={false}>
+        {dribbleHighlights.map((highlight, index) => (
+            <VideoHighlightCard
+              key={index}
+              videoUrl={highlight.highlight_url}
+              text={`${highlight.full_name}`}
+            />
+          ))}
         </ScrollView>
       </View>
+
       <View style={styles.scrollWrapperView}>
-        <Text style={styles.scrollWrapperHeader}>Top goals this week</Text>
-        <ScrollView
-          horizontal={true}
-          style={{...styles.topGoalScorersScroll,paddingLeft:20}}
-          showsHorizontalScrollIndicator={false}
-        >
-          <View style={[styles.highlightView]}>
-            <Image source={bayern} style={styles.highlightImage} />
-            <Text
-              style={styles.highlightParagraph}
-              numberOfLines={1}
-              ellipsizeMode="tail"
-            >
-              Bayern 9th goal against Dynamo Zagreb
-            </Text>
-          </View>
-          <View style={[styles.highlightView]}>
-            <Image source={monaco} style={styles.highlightImage} />
-            <Text
-              style={styles.highlightParagraph}
-              numberOfLines={1}
-              ellipsizeMode="tail"
-            >
-              Monaco surprises barcelona with this goal
-            </Text>
-          </View>
-          <View style={[styles.highlightView]}>
-          <Image source={bologna} style={styles.highlightImage} />
-            <Text
-              style={styles.highlightParagraph}
-              numberOfLines={1}
-              ellipsizeMode="tail"
-            >
-              Bologna messes up against Liverpool
-            </Text>
-          </View>
+        <Text style={styles.scrollWrapperHeader}>Top goals this month</Text>
+        <ScrollView horizontal={true} style={{ ...styles.topGoalScorersScroll, paddingLeft: 20 }} showsHorizontalScrollIndicator={false}>
+        {goalHighlights.map((highlight, index) => (
+            <VideoHighlightCard
+              key={index}
+              videoUrl={highlight.highlight_url}
+              text={`${highlight.full_name}`}
+            />
+          ))}
         </ScrollView>
       </View>
-      <View style={{...styles.scrollWrapperView,marginBottom:100}}>
-        <Text style={styles.scrollWrapperHeader}>Top saves this week</Text>
-        <ScrollView
-          horizontal={true}
-          style={{...styles.topGoalScorersScroll,paddingLeft:20}}
-          showsHorizontalScrollIndicator={false}
-        >
-          <View style={[styles.highlightView]}>
-            <Image source={neuer} style={styles.highlightImage} />
-            <Text
-              style={styles.highlightParagraph}
-              numberOfLines={1}
-              ellipsizeMode="tail"
-            >
-              Neuer saves bayern again
-            </Text>
-          </View>
-          <View style={[styles.highlightView]}>
-            <Image source={neuerrm} style={styles.highlightImage} />
-            <Text
-              style={styles.highlightParagraph}
-              numberOfLines={1}
-              ellipsizeMode="tail"
-            >
-              Neuer stops ronaldo from scoring
-            </Text>
-          </View>
-          <View style={[styles.highlightView]}>
-            <Image source={martinez} style={styles.highlightImage} />
-            <Text
-              style={styles.highlightParagraph}
-              numberOfLines={1}
-              ellipsizeMode="tail"
-            >
-              Martinez stops french attack
-            </Text>
-          </View>
+
+      <View style={{ ...styles.scrollWrapperView, marginBottom: 100 }}>
+        <Text style={styles.scrollWrapperHeader}>Top goals this month</Text>
+        <ScrollView horizontal={true} style={{ ...styles.topGoalScorersScroll, paddingLeft: 20 }} showsHorizontalScrollIndicator={false}>
+          {saveHighlights.map((highlight, index) => (
+            <VideoHighlightCard
+              key={index}
+              videoUrl={highlight.highlight_url}
+              text={`${highlight.full_name}`}
+            />
+          ))}
         </ScrollView>
       </View>
-      
     </ScrollView>
   );
 }
@@ -195,7 +144,7 @@ function Home() {
 const styles = StyleSheet.create({
   homeView: {
     padding: 10,
-    paddingTop:0,
+    paddingTop: 0,
   },
   scrollWrapperView: {
     marginTop: 20,
@@ -212,7 +161,7 @@ const styles = StyleSheet.create({
     color: "#7e8b9e",
     fontSize: 20,
     textAlign: "left",
-    paddingLeft:20,
+    paddingLeft: 20,
     marginTop: 20,
   },
   topScorersParagraph: {
@@ -238,18 +187,15 @@ const styles = StyleSheet.create({
     marginRight: 60,
     width: 150,
   },
-
   highlightImage: {
     width: 190,
     height: 130,
     marginBottom: 10,
-    borderRadius:10
+    borderRadius: 10,
   },
-
   highlightParagraph: {
     fontFamily: "Jersey20",
     color: "#495464",
-    
     fontSize: 16,
     textAlign: "center",
     width: 140, 
@@ -261,6 +207,9 @@ const styles = StyleSheet.create({
     height: 100,
     borderRadius: "100%",
   },
+  videoContainer: { overflow: 'hidden', borderRadius: 10, marginLeft: 50 },
+  videoPlayer: { width: 200, height: 120, borderRadius: 10 },
+  highlightParagraph: { marginTop: 5, fontSize: 14, fontFamily: "Jersey20", color: "#495464"},
 });
 
 export default Home;
