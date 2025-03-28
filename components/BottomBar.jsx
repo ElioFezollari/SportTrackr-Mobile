@@ -29,7 +29,7 @@ function BottomBar() {
 
         <TouchableOpacity
           style={[styles.navItem, styles.logoNavItem]} 
-          onPress={() => router.push("/home")} 
+          onPress={() => router.push("/leagues")} 
         >
           <Image style={styles.logo} source={logo} />
         </TouchableOpacity>

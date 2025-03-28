@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Text, View, StyleSheet, Dimensions, Image, TouchableOpacity, FlatList } from "react-native";
 import { getLeaguePointsTable } from "../services/leagues";
 import useAuth from "../hooks/useAuth";
+import { usePopUp } from "../context/PopUpContext";
 
 const { width, height } = Dimensions.get("window");
 const currentDate = new Date();
@@ -9,6 +10,7 @@ const currentDate = new Date();
 function LeaguePointsTableModal({ leagueId, leagueName, leagueLogo, closeModal }) {
     const { auth } = useAuth();
     const [pointsTable, setPointsTable] = useState([]);
+    const { setPopUp } = usePopUp(); 
 
     useEffect(() => {
         const fetchLeaguePointsTable = async () => {
@@ -29,7 +31,13 @@ function LeaguePointsTableModal({ leagueId, leagueName, leagueLogo, closeModal }
 
     const loadLeaguePointsTable = ({ item, index }) => {
         return (
-            <TouchableOpacity style={styles.teamInfo}>
+            <TouchableOpacity style={styles.teamInfo} 
+            onPress={(()=>{
+                
+                setPopUp({type:"team",teamName:item.team_name, teamImg:item.team_logo, teamId:item.team_id})
+                closeModal();
+            })}
+            >
                 <View style={styles.teamInfoLeft}>
                     <Text style={styles.teamRank}>{index + 1}</Text>
                     <Image

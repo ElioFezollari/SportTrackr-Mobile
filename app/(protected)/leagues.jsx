@@ -23,7 +23,7 @@ function Leagues() {
             try {
                 const res = await getLeagues(auth.accessToken);
                 if (res.status === 200) setLeagues(res.data.leagues);
-                else console.log(res.data.message);
+                else console.log();
             } catch (error) {
                 console.error("Error fetching leagues:", error);
             }
@@ -39,7 +39,10 @@ function Leagues() {
                 style={styles.leagueInfo}
                 onPress={() => {
                     if (!started) {
-                        router.push({ pathname: '/joinTeam', params: { leagueId: item.id, leagueName: item.leagueName, leagueLogo: item.logoUrl } });
+                        router.push({
+                            pathname: '/joinTeam',
+                            params: { leagueId: item.id, leagueLogo: item.logoUrl }
+                        });
                     } else {
                         setSelectedLeague(item);
                         setModalVisible(true);

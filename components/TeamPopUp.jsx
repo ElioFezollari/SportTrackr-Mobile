@@ -11,7 +11,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import React, { useEffect, useState } from "react";
-import getTeamPlayers from "../services/teams";
+import {getTeamPlayers} from "../services/teams";
 import useAuth from "../hooks/useAuth";
 import { usePopUp } from "../context/PopUpContext";
 import { router } from "expo-router";
@@ -129,7 +129,7 @@ const TeamPopUp = () => {
       </View>
 
       <View style={styles.teamPopUpName}>
-        <Image source={{ uri: popUp.teamImg }} style={styles.teamImg} />
+        <Image source={popUp.teamImg ? { uri: popUp.teamImg } : require('../assets/defaultLogo/default_team_logo.png')} style={styles.teamImg} />
         <Text style={styles.teamPopUpText}>{popUp.teamName}</Text>
         <TouchableOpacity 
           style={styles.schedule} 
