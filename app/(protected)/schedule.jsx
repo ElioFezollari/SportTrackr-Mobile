@@ -54,7 +54,7 @@ function Schedule() {
             {/* Match Card */}
             <View style={styles.scheduleMatchCard}>
               <View style={styles.homescheduleTeam}>
-                <Image source={item.logo1 ? { uri: item.logo1 } : default_team_logo} style={styles.scheduleTeamLogo} />
+                <Image source={item.logo1 ? { uri: item.logo1 } : require('../../assets/defaultLogo/default_team_logo.png')} style={styles.scheduleTeamLogo} />
                 <View style={styles.scheduleTeamNameColorContainer}>
                   <Text style={styles.scheduleTeamName}>{item.team1}</Text>
                   <View style={styles.colorContainer}>
@@ -76,7 +76,7 @@ function Schedule() {
 
               {/* Team 2 */}
               <View style={styles.awayscheduleTeam}>
-                <Image source={item.logo2 ? { uri: item.logo2 } : default_team_logo} style={styles.scheduleTeamLogo} />
+                <Image source={item.logo2 ? { uri: item.logo2 } : require('../../assets/defaultLogo/default_team_logo.png')} style={styles.scheduleTeamLogo} />
                 <View style={styles.scheduleTeamNameColorContainer}>
                   <Text style={styles.scheduleTeamName}>{item.team2}</Text>
                   <View style={styles.colorContainer}>
@@ -114,6 +114,7 @@ const styles = StyleSheet.create({
   scheduleContainer: {
     flex: 1,
     backgroundColor: "#F8F8F8",
+    paddingBottom: 100
   },
   scheduleTitle: {
     fontFamily: "Jersey20",

@@ -133,7 +133,9 @@ const TeamPopUp = () => {
         <Text style={styles.teamPopUpText}>{popUp.teamName}</Text>
         <TouchableOpacity 
           style={styles.schedule} 
-          onPress={() => router.push({ pathname: '/schedule', params: { teamId } })}
+          onPress={() => {
+            setPopUp(false)
+            router.push({ pathname: '/schedule', params: { teamId } })}}
         >
           <Text style={styles.scheduleText}>Check Schedule</Text>
         </TouchableOpacity>
