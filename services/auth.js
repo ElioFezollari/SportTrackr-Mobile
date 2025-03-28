@@ -1,5 +1,7 @@
 import axios from 'axios'
-const baseUrl = 'http://10.16.34.229:5000/v1/auth/'
+// const baseUrl = 'http://192.168.2.11:5001/v1/auth/'
+
+const baseUrl = 'http://192.168.2.57:5000/v1/auth/'
 
 
 const register = async(credentials,token)=>{

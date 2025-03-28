@@ -1,5 +1,6 @@
 import axios from 'axios'
-const baseUrl = 'http://10.16.34.229:5000/v1/league/'
+
+const baseUrl = 'http://192.168.2.57:5000/v1/league/'
 
 
 const getLeagues = async (credentials) => {
