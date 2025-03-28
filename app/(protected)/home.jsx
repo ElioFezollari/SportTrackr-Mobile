@@ -57,7 +57,6 @@ function Home() {
         setGoalHighlights(goalStats.data);
         setSaveHighlights(saveStats.data);
         setDribbleHighlights(dribbleStats.data);
-        console.log(goalHighlights)
       } catch (error) {
         console.error("Error fetching stats:", error);
       }
